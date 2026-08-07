@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ececec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .calculadora{
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        #display{
+            width: 100%;
+            height: 60px;
+            font-size: 30px;
+            text-align: right;
+            margin-bottom: 10px;
+            padding-right: 10px;
+            box-sizing: border-box;
+        }
+
+        .botoes{
+            display:grid;
+            grid-template-columns: repeat(4,1fr);
+            gap:10px;
+        }
+
+        button{
+            height: 60px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .igual{
+            grid-column: span 2;
+            background: #2b7cff;
+            color: white;
+        }
+
+        .zero{
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculadora">
+
+    <input type="text" id="display" value="0" readonly>
+
+    <div class="botoes">
+        <button onclick="limpar()">C</button>
+        <button onclick="operacao('/')">/</button>
+        <button onclick="operacao('*')">*</button>
+        <button onclick="apagar()">⌫</button>
+
+        <button onclick="numero('7')">7</button>
+        <button onclick="numero('8')">8</button>
+        <button onclick="numero('9')">9</button>
+        <button onclick="operacao('-')">-</button>
+
+        <button onclick="numero('4')">4</button>
+        <button onclick="numero('5')">5</button>
+        <button onclick="numero('6')">6</button>
+        <button onclick="operacao('+')">+</button>
+
+        <button onclick="numero('1')">1</button>
+        <button onclick="numero('2')">2</button>
+        <button onclick="numero('3')">3</button>
+
+        <button onclick="numero('.')">.</button>
+        <button class="zero" onclick="numero('0')">0</button>
+        <button class="igual" onclick="calcular()">=</button>
+    </div>
+
+</div>
+
+<script>
+
+let display = document.getElementById("display");
+let primeiroNumero;
+let operador = "";
+let novoNumero = true;
+
+function numero(valor){
+
+    if(display.value == "0" || novoNumero){
+        display.value = valor;
+        novoNumero = false;
+    } else{
+        display.value += valor;
+    }
+}
+
+function operacao(op){
+
+    if(primeiroNumero == null) primeiroNumero = parseFloat(display.value);
+    else if(!novoNumero) calcular();
+
+    operador = op;
+    novoNumero = true;
+}
+
+function calcular(){
+
+    if(primeiroNumero == null || operador == "") return;
+
+    let segundoNumero = Number(display.value);
+    let resultado = 0;
+
+    if (operador == "+") resultado = primeiroNumero + segundoNumero;
+    else if ("-") resultado = primeiroNumero - segundoNumero;
+    else if ("*") resultado = primeiroNumero * segundoNumero;
+    else if ("/") segundoNumero != 0 ? primeiroNumero / segundoNumero : "Erro";
+
+    display.value = resultado;
+    primeiroNumero = resultado;
+    operador = "";
+    novoNumero = true;
+}
+
+function limpar(){
+    display.value = "0";
+    primeiroNumero = null;
+    operador = "";
+    novoNumero = true;
+}
+
+function apagar(){
+    if(!novoNumero){
+        display.value = display.value.slice(0, -1);
+        if(display.value == "") display.value = "0";
+    }
+}
+
+</script>
+</body>
+</html>
