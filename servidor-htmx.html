@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Nomes</title>
+    <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx-ext-json-enc@2.0.1/json-enc.js"></script>
+</head>
+<body>
+    <form
+        hx-post="https://ola-tp1.onrender.com/nomes"
+        hx-include="#nome"
+        hx-ext="json-enc"
+        hx-target="#resposta"
+        hx-swap="innerHTML">
+
+        <label for="nome">Nome:</label>
+        <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Digite um nome"
+            required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p id="resposta"></p>
+
+    <h2>Nomes cadastrados</h2>
+
+    <button
+        hx-get="https://ola-tp1.onrender.com/nomes"
+        hx-target="#lista"
+        hx-swap="innerHTML">
+        Listar nomes
+    </button>
+
+    <div id="lista"></div>
+</body>
+</html>
